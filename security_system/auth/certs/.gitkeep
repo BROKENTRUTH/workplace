@@ -1,0 +1,15 @@
+# This directory is intended to store SSL/TLS certificates and keys
+# for the authentication prototype.
+#
+# For example, after running `generate_certs.sh` (or equivalent openssl commands),
+# you would place the following files here:
+# - ca.crt (Certificate Authority certificate)
+# - server.crt (Server's certificate)
+# - server.key (Server's private key)
+# - client.crt (Client's certificate)
+# - client.key (Client's private key)
+#
+# These files are NOT part of the repository for security reasons but are needed
+# for the auth_server.py and auth_client.py to function with mTLS.
+#
+# This .gitkeep file ensures the directory structure is versioned by Git.

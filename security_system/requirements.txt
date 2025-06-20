@@ -1,0 +1,5 @@
+tenseal>=0.3.15
+torch>=2.0.0
+# For specific versions, user might need to find the correct install command
+# from pytorch.org based on their CUDA version or if they want CPU-only.
+# Example: torch>=2.0.0+cpu
