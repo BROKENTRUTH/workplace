@@ -1,0 +1,50 @@
+[
+    {
+        "id": "STR001",
+        "name": "SQL Injection Attempt (SELECT * FROM)",
+        "type": "regex",
+        "pattern": "select\\s+\\*\\s+from",
+        "description": "Detects basic 'SELECT * FROM' SQL injection patterns.",
+        "severity": "High"
+    },
+    {
+        "id": "STR002",
+        "name": "Common Web Shell Upload (cmd.php)",
+        "type": "string",
+        "pattern": "cmd.php",
+        "description": "Detects attempts to upload a common PHP web shell.",
+        "severity": "High"
+    },
+    {
+        "id": "REG001",
+        "name": "Potential XSS Attempt (script tag)",
+        "type": "regex",
+        "pattern": "<script.*?>.*?</script.*?>",
+        "description": "Detects common Cross-Site Scripting patterns using script tags.",
+        "severity": "Medium"
+    },
+    {
+        "id": "STR003",
+        "name": "Known Malicious User Agent (BadBot)",
+        "type": "string",
+        "pattern": "BadBot/1.0",
+        "description": "Detects a known malicious user agent string.",
+        "severity": "Low"
+    },
+    {
+        "id": "REG002",
+        "name": "Nikto Scan Attempt (Nikto User Agent)",
+        "type": "regex",
+        "pattern": "Nikto/",
+        "description": "Detects User-Agent string associated with Nikto vulnerability scanner.",
+        "severity": "Medium"
+    },
+    {
+        "id": "NEW001",
+        "name": "Log4Shell JNDI Lookup",
+        "type": "regex",
+        "pattern": "\\$\\{jndi:",
+        "description": "Detects JNDI lookup patterns often associated with Log4Shell.",
+        "severity": "Critical"
+    }
+]
