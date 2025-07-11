@@ -127,6 +127,23 @@ def clean_text(text):
         return [t.encode('latin-1', 'replace').decode('latin-1') for t in text]
     return text.encode('latin-1', 'replace').decode('latin-1')
 
+# Helper function to break long words in a string
+def get_breakable_text(text_str, max_word_length=50):
+    if not text_str or text_str.isspace(): # Handle None, empty or whitespace-only strings
+        return text_str
+
+    words = text_str.split(' ')
+    processed_words = []
+    for word in words:
+        if len(word) > max_word_length:
+            broken_word = ''
+            for i in range(0, len(word), max_word_length):
+                broken_word += word[i:i+max_word_length] + ' '
+            processed_words.append(broken_word.strip()) # Remove trailing space from the last chunk
+        else:
+            processed_words.append(word)
+    return ' '.join(processed_words)
+
 # Export the structured data to a readable PDF format
 def export_to_pdf(df, filename='extracted_report.pdf'):
     pdf = FPDF()
@@ -137,7 +154,8 @@ def export_to_pdf(df, filename='extracted_report.pdf'):
     for index, row in df.iterrows():
         pdf.set_font("Arial", 'B', 12)
         # Using Sl. No. from DataFrame for material numbering
-        pdf.cell(0, 10, clean_text(f"Sl. No. {row['Sl. No.']}: {row['Material Name']}"), ln=True)
+        material_name_processed = get_breakable_text(str(row['Material Name']))
+        pdf.cell(0, 10, clean_text(f"Sl. No. {row['Sl. No.']}: {material_name_processed}"), ln=True)
 
         pdf.set_font("Arial", 'B', 10) # Bold for field names
 
@@ -145,7 +163,8 @@ def export_to_pdf(df, filename='extracted_report.pdf'):
         pdf.multi_cell(0, 5, clean_text("Test Name/Reference Code/Standard as per the given document (with reference page number):"))
         pdf.set_font("Arial", '', 10)
         for item in row['Test Name/Reference Code/Standard as per the given document (with reference page number)']:
-            pdf.multi_cell(0, 5, clean_text(f"  - {item}"))
+            processed_item = get_breakable_text(str(item)) # Ensure item is string
+            pdf.multi_cell(0, 5, clean_text(f"  - {processed_item}"))
         pdf.ln(2) # Small space
 
         # Specific Material Type/Definition
@@ -153,7 +172,8 @@ def export_to_pdf(df, filename='extracted_report.pdf'):
         pdf.multi_cell(0, 5, clean_text("Specific Material Type/Material Definition:"))
         pdf.set_font("Arial", '', 10)
         for item in row['Specific Material Type/Material Definition']:
-            pdf.multi_cell(0, 5, clean_text(f"  - {item}"))
+            processed_item = get_breakable_text(str(item)) # Ensure item is string
+            pdf.multi_cell(0, 5, clean_text(f"  - {processed_item}"))
         pdf.ln(2)
 
         # Any other relevant information
@@ -161,7 +181,8 @@ def export_to_pdf(df, filename='extracted_report.pdf'):
         pdf.multi_cell(0, 5, clean_text("Any other relevant information:"))
         pdf.set_font("Arial", '', 10)
         for item in row['Any other relevant information']:
-            pdf.multi_cell(0, 5, clean_text(f"  - {item}"))
+            processed_item = get_breakable_text(str(item)) # Ensure item is string
+            pdf.multi_cell(0, 5, clean_text(f"  - {processed_item}"))
         pdf.ln(5) # Larger space before next material
 
     try:
